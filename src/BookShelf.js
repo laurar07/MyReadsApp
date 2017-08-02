@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 // import escapeRegExp from 'escape-string-regexp'
 // import sortBy from 'sort-by'
 // import { Link } from 'react-router-dom'
-import BookShelfChanger from './BookShelfChanger'
+import Book from './Book'
 
 class BookShelf extends Component {
     static propTypes = {
@@ -13,7 +13,7 @@ class BookShelf extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(`Receiving props here: ${nextProps}`);
+        console.log(`Receiving props here: ${nextProps.books.length}`);
         if (nextProps.books !== this.props.books) {
             // this.props.books = nextProps.books;
         }
@@ -22,29 +22,20 @@ class BookShelf extends Component {
     render() {
         const {
             title,
-            books
+            books,
+            onUpdateBook
         } = this.props;
         return (
             <div className="bookshelf">
                 <h2 className="bookshelf-title">{title}</h2>
                   <div className="bookshelf-books">
                     <ol className="books-grid">
-                        {books.map((book) => (
-                            <li key={book.id} className='book'>
-                                <div className="book-top">
-                                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
-                                    <BookShelfChanger
-                                        shelf={book.shelf}
-                                        onUpdateBook={(shelf) => {
-                                            if (book.shelf !== shelf) {
-                                                this.props.onUpdateBook(book, shelf);
-                                            }
-                                        }}
-                                    />
-                                </div>
-                                <div className="book-title">{book.title}</div>
-                                <div className="book-authors">{book.author}</div>
-                            </li>
+                        {books.map((book) => ( 
+                            <Book 
+                                key={book.id}
+                                book={book}
+                                onUpdateBook={onUpdateBook}
+                            />
                         ))}
                     </ol>
                 </div>

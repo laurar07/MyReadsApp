@@ -9,9 +9,8 @@ class BookShelfChanger extends Component {
 
     handleChange = (e) => {
         e.preventDefault();
-        if (e.target.value !== "none") {
-            this.props.onUpdateBook(e.target.value);
-        }
+        console.log(`Changing to ${e.target.value}`);
+        this.props.onUpdateBook(e.target.value);
     }
 
     render() {
