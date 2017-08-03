@@ -1,37 +1,29 @@
-import React from 'react'
+import React, { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import SearchBooks from './SearchBooks'
 import BookShelf from './BookShelf'
 import { BrowserRouter, Route, withRouter } from 'react-router-dom'
 
-class BooksApp extends React.Component {
+class BooksApp extends Component {
   state = {
-    books: [],
-    searchResults: []
+    books: []
   }
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
-      this.setState({ books });
+      this.setState({ 
+        books
+      });
     })
   }
 
   updateBook(book, shelf) {
-    console.log(`The book is: ${book.id} and the shelf is: ${shelf}`);
-    console.log(`My books length BEFORE: ${this.state.books.length}`);
     BooksAPI.update(book, shelf).then((data) => {
       book.shelf = shelf;
       this.setState((prevState) => ({
         books: prevState.books.filter((b) => b.id !== book.id).concat([book])
       }))
-      console.log(`My books length AFTER: ${this.state.books.length}`);
-    })
-  }
-
-  searchBooks(query) {
-    BooksAPI.search(query, 20).then((searchResults) => {
-      this.setState({ searchResults });
     })
   }
 
@@ -81,12 +73,9 @@ class BooksApp extends React.Component {
         )}/>
         <Route path="/search" render={({history}) => (
           <SearchBooks
-            searchResults={this.state.searchResults}
+            currentBooks={this.state.books}
             onUpdateBook={(book, shelf) => {
               this.updateBook(book, shelf);
-            }}
-            onSearchBooks={(query) => {
-              this.searchBooks(query)
             }}
           />
         )}/>

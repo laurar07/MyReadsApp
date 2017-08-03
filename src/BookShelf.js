@@ -34,6 +34,7 @@ class BookShelf extends Component {
                             <Book 
                                 key={book.id}
                                 book={book}
+                                shelf={book.shelf}
                                 onUpdateBook={onUpdateBook}
                             />
                         ))}
