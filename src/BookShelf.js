@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-// import escapeRegExp from 'escape-string-regexp'
-// import sortBy from 'sort-by'
-// import { Link } from 'react-router-dom'
 import Book from './Book'
 
 class BookShelf extends Component {
@@ -10,13 +7,6 @@ class BookShelf extends Component {
         title: PropTypes.string.isRequired,
         books: PropTypes.array.isRequired,
         onUpdateBook: PropTypes.func.isRequired
-    }
-
-    componentWillReceiveProps(nextProps) {
-        console.log(`Receiving props here: ${nextProps.books.length}`);
-        if (nextProps.books !== this.props.books) {
-            // this.props.books = nextProps.books;
-        }
     }
 
     render() {
