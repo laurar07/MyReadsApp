@@ -31,7 +31,6 @@ class SearchBooks extends Component {
     }
 
     runSearch(searchTerm) {
-        console.log(`value :: ${searchTerm}`);
         if (searchTerm && searchTerm.length > 0) {
             BooksAPI.search(searchTerm, 20).then((searchResults) => {
                 let newResults = searchResults === undefined || searchResults.error || searchResults.length === 0 ? [] : 
