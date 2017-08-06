@@ -3,6 +3,7 @@ import SearchBooksResults from './SearchBooksResults'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
+import { debounce } from 'throttle-debounce';
 
 class SearchBooks extends Component {
     static propTypes = {
@@ -15,13 +16,22 @@ class SearchBooks extends Component {
             query: '',
             searchResults: []
         }
-        this.handleChange = this.handleChange.bind(this);
+        this.runSearch = debounce(500, this.runSearch);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange(event) {
+    handleChange(e) {
         event.preventDefault();
-        let searchTerm = event.target.value;
+        this.runSearch(e.target.value);
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+    }
+
+    runSearch(searchTerm) {
+        console.log(`value :: ${searchTerm}`);
         if (searchTerm && searchTerm.length > 0) {
             BooksAPI.search(searchTerm, 20).then((searchResults) => {
                 let newResults = searchResults === undefined || searchResults.error || searchResults.length === 0 ? [] : 
@@ -46,10 +56,6 @@ class SearchBooks extends Component {
                 searchResults : []
             })
         }
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
     }
 
     render() {
